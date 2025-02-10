@@ -1,0 +1,19 @@
+.console {
+  color: var(--primaryFont);
+  padding: 5px;
+  height: 98%;
+  overflow-y: auto;
+  border-radius: 5px;
+}
+
+.console-input {
+  background: none;
+  border: none;
+  font-family: monospace;
+  color: var(--primaryFont);
+  outline: none;
+  width: 70%;
+  font-size: var(--lssmFontSize);
+  text-decoration: none;
+  position: relative;
+}

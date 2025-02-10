@@ -1,5 +1,5 @@
 :root {
-  font-family:Verdana;
+  font-family:monospace;
   font-weight: 400;
 
   /* font size */
@@ -13,12 +13,25 @@
   --tertiaryBg: rgb(67, 255, 67);
   
   /* font colors */
-  --primaryFont: rgb(127, 255, 0);
+  --primaryFont: rgb(117, 204, 29);
   --secondaryFont: rgb(210, 210, 210);
   --tertiaryFont: rgb(159, 159, 159);
+  
+  /* hovers */
+  --primaryHover: rgb(54, 54, 54);
+
+
+  /* shades */
+  --green300: rgb(137, 255, 137);
+  --green500: rgb(22, 255, 22);
+  --green800: rgb(5, 65, 5);
 
 
   font-size: var(--lslgFontSize);
   background-color: var(--secondaryBg);
   color: var(--primaryFont);
+}
+
+::selection {
+  background-color: var(--green800);
 }

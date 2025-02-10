@@ -31,7 +31,7 @@
 
 .tabs span {
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   border-radius: 4px;
   padding: 3px 30px 3px 3px;
   gap: 5px;
@@ -39,16 +39,27 @@
   min-width: 100px;
   min-height: 20px;
   max-height: 20px;
+  cursor: pointer;
 }
 
 .tabs img {
   width: 20px;
+  height: 20px;
+}
+
+.tabs p {
+  padding-top: 3px;
 }
 
 .consoleText,
 .gui {
   opacity: 0;
   animation: tabs 1s ease-in-out 3s forwards;
+}
+
+.tabs .active {
+  min-height: 35px;
+  max-height: 35px;
 }
 
 .tabs .console {
@@ -69,11 +80,11 @@
 }
 
 .mainScreen {
-    width: 99%;
-    height: calc(95% - 23px);
+    width: 97%;
+    height: calc(95% - 34px);
     position: relative;
-    top: calc(50dvh - 53%);
-    left: calc(50dvw - 62%);
+    top: 40px;
+    left:3.5px;
     padding: 5px;
     border-radius: 0px 0px 8px 8px;
     background-color: var(--secondaryBg);

@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function Console() {
+export default function Gui() {
   return (
     <div>
-      123
+      gui
     </div>
   )
 }
