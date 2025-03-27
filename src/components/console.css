@@ -10,7 +10,7 @@
   background: none;
   border: none;
   font-family: monospace;
-  color: var(--primaryFont);
+  color: rgb(218, 237, 110);
   outline: none;
   width: 70%;
   font-size: var(--lssmFontSize);
