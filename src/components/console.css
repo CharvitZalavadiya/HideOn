@@ -1,19 +1,25 @@
-.console {
-  color: var(--primaryFont);
-  padding: 5px;
-  height: 98%;
-  overflow-y: auto;
-  border-radius: 5px;
+.console-container {
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.console-line {
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.console-input-container {
+  display: flex;
 }
 
 .console-input {
-  background: none;
+  background:none;
   border: none;
   font-family: monospace;
-  color: rgb(218, 237, 110);
+  color: var(--primaryFont);
   outline: none;
-  width: 70%;
-  font-size: var(--lssmFontSize);
+  width: 10vw;
+  resize: none;
+  font-size: var(--lsmdFontSize);
   text-decoration: none;
-  position: relative;
 }
