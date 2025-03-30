@@ -5,8 +5,7 @@ export default function Console() {
   const PROMPT = "user@hideon:~# ";
   const [lines, setLines] = useState([
     "Welcome to HideOn console!",
-    "Use command man ciphers to see all commands.",
-    "",
+    "Use command `man ciphers` to see all commands.\n\n",
   ]);
   const [inputValue, setInputValue] = useState(PROMPT);
   const inputRef = useRef(null);
@@ -31,8 +30,7 @@ export default function Console() {
 
   // Help response
   const HELP_RESPONSE = [
-    "---",
-    "Available Ciphers:",
+    "\nAvailable Ciphers:",
     "01. caeser",
     "02. monoalphabetic",
     "03. railfence",
@@ -45,11 +43,80 @@ export default function Console() {
     "10. playfair",
     "11. feistel",
     "12. aes (Advanced Encryption Standard)",
-    "13. des (Data Encryption Standard)",
-    "---",
-    "To use any cipher, type: <ciphername> --help",
-    "To clear console, type: cls or clear",
-    "---",
+    "13. des (Data Encryption Standard)\n\n",
+    "To use any cipher, type :\t<ciphername> --help\n\n",
+    "To clear console, type :\tcls / clear\n\n",
+  ];
+
+  const CIPHER_KEYS = [
+    {
+      name: "caeser",
+      examples: ["3 \t// Shift values for the Caesar cipher", "7", "15\n\n"], // Shift values for the Caesar cipher
+    },
+    {
+      name: "monoalphabetic",
+      examples: [
+        "phqgiumeaylnofdxjkrcvstzwb \t// Random substitution", // Random substitution
+        "zyxwvutsrqponmlkjihgfedcba \t// Reverse alphabet", // Reverse alphabet
+        "qazwsxedcrfvtgbyhnujmikolp \t// Mixed random key\n\n", // Mixed random key
+      ],
+    },
+    {
+      name: "railfence",
+      examples: ["2 \t// Number of rails", "3", "5\n\n"], // Number of rails
+    },
+    {
+      name: "columnar",
+      examples: ["keyword \t // Keyword based key", "4312567 \t // Numeric based key", "31452 \t // Numeric based key\n\n"], // Numeric & keyword-based keys
+    },
+    {
+      name: "doublecolumnar",
+      examples: ["secret", "3142", "password\n\n"], // Two-layer columnar keys
+    },
+    {
+      name: "hill",
+      examples: [
+        "[[17, 17, 5], [21, 18, 21], [2, 2, 19]]  \t // 3x3 matrix key", // 3x3 matrix
+        "[[6, 24], [1, 13]] \t // 2x2 matrix key", // 2x2 matrix key
+        "[[5, 8], [17, 3]]\n\n", // Another 2x2 example
+      ],
+    },
+    {
+      name: "vigenere",
+      examples: ["LEMON", "HIDE", "CIPHER\n\n"], // Keyword-based
+    },
+    {
+      name: "vernam",
+      examples: ["XMCKL", "HELLO", "SECRET\n\n"], // One-time pad examples
+    },
+    {
+      name: "autokey",
+      examples: ["KING", "QUEEN", "CIPHER\n\n"], // Initial key examples
+    },
+    {
+      name: "playfair",
+      examples: ["MONARCHY", "KEYWORD", "SECRET\n\n"], // Playfair key squares
+    },
+    {
+      name: "feistel",
+      examples: ["11001100", "10101010", "00110011\n\n"], // Example binary keys
+    },
+    {
+      name: "aes",
+      examples: [
+        "2b7e151628aed2a6abf7158809cf4f3c \t // 128-bit hex key", // 128-bit hex key
+        "603deb1015ca71be2b73aef0857d7781 \t // 192-bit hex key", // 192-bit hex key
+        "000102030405060708090a0b0c0d0e0f \t // 256-bit hex key\n\n", // 256-bit hex key
+      ],
+    },
+    {
+      name: "des",
+      examples: [
+        "133457799BBCDFF1 \t // Standard", // Standard DES key
+        "A1B2C3D4E5F60708", // Another valid DES key
+        "0123456789ABCDEF \t // 64-bit key\n\n", // 64-bit key
+      ],
+    },
   ];
 
   // Auto resize textarea
@@ -93,10 +160,10 @@ export default function Console() {
       // Check if user asked for help but misspelled the cipher name
       else if (
         parts.length === 2 &&
-        CIPHERS.includes(cipherName) &&
-        parts[1] === "--help"
+        parts[1] === "--help" &&
+        !CIPHERS.includes(cipherName)
       ) {
-        response = ["Cipher not found!"];
+        response = ["\nCipher not found!\n\n"];
       }
       // Check if the user asked for cipher help
       else if (
@@ -104,11 +171,23 @@ export default function Console() {
         CIPHERS.includes(cipherName) &&
         parts[1] === "--help"
       ) {
+        // Find the cipher in the CIPHER_KEYS array
+        const cipherInfo = CIPHER_KEYS.find(
+          (cipher) => cipher.name === cipherName
+        );
+
+        // Get key examples or fallback to a default message
+        const keyExamples = cipherInfo
+          ? cipherInfo.examples
+              .map((ex, index) => `<${index + 1}> : ${ex}`)
+              .join("\n")
+          : "No key examples available.";
+
         response = [
-          "---",
-          `For encryption: ${cipherName} -e <plainText> -k <key>`,
+          `\nFor encryption: ${cipherName} -e <plainText> -k <key>`,
           `For decryption: ${cipherName} -d <encryptedText> -k <key>`,
-          "---",
+          "\nExample keys:",
+          keyExamples,
         ];
       }
       // Check for encryption/decryption command format
@@ -127,8 +206,8 @@ export default function Console() {
 
           if (!mode) {
             response = [
-              "Missing mode! Use -e for encryption or -d for decryption.",
-              `Example: ${cipherName} -e <plaintext> -k <key>`,
+              "\nMissing mode! Use -e for encryption or -d for decryption.",
+              `Example: ${cipherName} -e <plaintext> -k <key>\n\n`,
             ];
           } else {
             const modeIndex = parts.indexOf(mode);
@@ -140,8 +219,8 @@ export default function Console() {
               modeIndex + 1 >= parts.length
             ) {
               response = [
-                "Invalid command format!",
-                `Example: ${cipherName} -e <plaintext> -k <key>`,
+                "\nInvalid command format!",
+                `Example: ${cipherName} -e <plaintext> -k <key>\n\n`,
               ];
             } else {
               // Extract text and key
@@ -159,10 +238,10 @@ export default function Console() {
               }
 
               if (!text) {
-                response = ["Missing text to process!"];
+                response = ["\nMissing text to process!\n\n"];
               } else {
                 // Dynamically import the cipher module
-                response = [`Processing ${cipherName} cipher...`];
+                response = [`\nProcessing ${cipherName} cipher...`];
 
                 try {
                   // Import the cipher file component
@@ -183,21 +262,21 @@ export default function Console() {
 
                     // Add the result to response
                     if (result) {
-                      response.push("Result:", result);
+                      response.push(result, "\n");
                     } else {
                       response.push(
-                        "Operation completed but returned no result."
+                        "\nOperation completed but returned no result.\n\n"
                       );
                     }
                   } else {
                     response.push(
-                      `Error: The ${cipherName} cipher module is not properly exported.`
+                      `\nError: The ${cipherName} cipher module is not properly exported.\n\n`
                     );
                   }
                 } catch (error) {
-                  console.error("Cipher execution error:", error);
+                  console.error("\nCipher execution error:", error, "\n");
                   response.push(
-                    `Error executing ${cipherName} cipher:`,
+                    `\nError executing ${cipherName} cipher: \n\n`,
                     error.message || "Unknown error"
                   );
                 }
@@ -205,13 +284,13 @@ export default function Console() {
             }
           }
         } catch (error) {
-          console.error("Import error:", error);
+          console.error("\nImport error:", error, "\n");
           response = [
-            `Error loading ${cipherName} cipher module: ${error.message}`,
+            `\nError loading ${cipherName} cipher module: ${error.message}\n\n`,
           ];
         }
       } else {
-        response = ["Command not recognized!"];
+        response = ["\nCommand not recognized!\n\n"];
       }
 
       setLines((prevLines) => [...prevLines, inputValue, ...response]);

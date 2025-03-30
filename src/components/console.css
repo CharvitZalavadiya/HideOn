@@ -1,6 +1,7 @@
 .console-container {
   word-wrap: break-word;
   white-space: pre-wrap;
+  user-select:contain;
 }
 
 .console-line {
