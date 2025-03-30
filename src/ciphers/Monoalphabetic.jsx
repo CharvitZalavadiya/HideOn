@@ -3,7 +3,14 @@ import React from "react";
 export default function Monoalphabetic({ mode, text, key }) {
   // Ensure key is valid (26 unique letters)
   if (!key || key.length !== 26 || new Set(key).size !== 26) {
-    return <div>Invalid key! The key must be exactly 26 unique letters.<br /><br />Type `monoalphabetic --help` to get examples of key</div>;
+    return (
+      <div>
+        Invalid key! The key must be exactly 26 unique letters.
+        <br />
+        <br />
+        Type `monoalphabetic --help` to get examples of key
+      </div>
+    );
   }
 
   const monoalphabeticCipher = (str, key, encrypt = true) => {

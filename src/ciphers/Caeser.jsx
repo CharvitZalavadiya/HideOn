@@ -2,10 +2,16 @@ import React from "react";
 
 export default function Caeser({ mode, text, key }) {
   const shift = parseInt(key, 10);
-  if (isNaN(shift)) return <div>Invalid key! Must be a number.</div>;
+  if (isNaN(shift))
+    return (
+      <div>
+        Invalid key! Must be a number.
+        <br />
+        <br />
+        Type `caeser --help` to get examples of key
+      </div>
+    );
 
-  // Only change this function to implement the other ciphers
-  // String(text), key and mode(enc/dec) need to be pass here
   const caesarCipher = (str, key, encrypt = true) => {
     // Ensure shift is within valid range (0-25)
     key = (((encrypt ? key : -key) % 26) + 26) % 26;

@@ -51,23 +51,27 @@ export default function Console() {
   const CIPHER_KEYS = [
     {
       name: "caeser",
-      examples: ["3 \t// Shift values for the Caesar cipher", "7", "15\n\n"], // Shift values for the Caesar cipher
+      examples: ["3", "7", "15\n\n"], // Shift values for the Caesar cipher
     },
     {
       name: "monoalphabetic",
       examples: [
-        "phqgiumeaylnofdxjkrcvstzwb \t// Random substitution", // Random substitution
-        "zyxwvutsrqponmlkjihgfedcba \t// Reverse alphabet", // Reverse alphabet
-        "qazwsxedcrfvtgbyhnujmikolp \t// Mixed random key\n\n", // Mixed random key
+        "phqgiumeaylnofdxjkrcvstzwb \t// Mixed random key", // Random substitution
+        "zyxwvutsrqponmlkjihgfedcba", // Reverse alphabet
+        "qazwsxedcrfvtgbyhnujmikolp\n\n", // Mixed random key
       ],
     },
     {
       name: "railfence",
-      examples: ["2 \t// Number of rails", "3", "5\n\n"], // Number of rails
+      examples: ["2", "3", "5\n\n"], // Number of rails
     },
     {
       name: "columnar",
-      examples: ["keyword \t // Keyword based key", "4312567 \t // Numeric based key", "31452 \t // Numeric based key\n\n"], // Numeric & keyword-based keys
+      examples: [
+        "keyword \t // Keyword based key",
+        "4312567 \t // Numeric based key",
+        "31452 \t // Numeric based key\n\n",
+      ], // Numeric & keyword-based keys
     },
     {
       name: "doublecolumnar",
