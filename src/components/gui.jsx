@@ -3,13 +3,15 @@ import "./gui.css"
 
 export default function Gui() {
   return (
-    <div>
+    <div className='gui'>
       <form >
+      <div className="mode">
       Mode:
         <input type="radio" name="Mode" value="Encryption" />
        <label for="Encryption">Encryption</label>
         <input type="radio" name="Mode"  value="Decryption"/>
         <label for="Decryption">Decryption</label><br />
+      </div>
       cipher:
         <select name="Cipher" >
             <option value="Caesar">caesar Cipher</option>
