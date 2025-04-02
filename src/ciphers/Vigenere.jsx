@@ -1,27 +1,19 @@
 import React from "react";
 
 export default function Vigenere({ mode, text, key }) {
-  if (!key || typeof key !== "string" || key.length === 0)
-    return (
-      <div>
-        Invalid key! Key must be a non-empty string.
-        <br />
-        <br />
-        Type `vigenere --help` to get examples of key.
-      </div>
-    );
+  // Function to process Vigenère Cipher
+  const vigenereCipher = (text, key, encrypt = true) => {
+    text = text.replace(/[^A-Za-z]/g, "").toUpperCase(); // Convert text to uppercase and remove non-alphabetic characters
+    key = key.replace(/[^A-Za-z]/g, "").toUpperCase(); // Convert key to uppercase and remove non-alphabetic characters
 
-  const vigenereCipher = (str, key, encrypt = true) => {
-    // Convert both text and key to uppercase and remove non-alphabetic characters
-    str = str.replace(/[^A-Za-z]/g, "").toUpperCase();
-    key = key.replace(/[^A-Za-z]/g, "").toUpperCase();
+    if (key.length === 0) return "Invalid key! Key cannot be empty.";
 
     let result = "";
     let keyIndex = 0;
     let keyLength = key.length;
 
-    for (let i = 0; i < str.length; i++) {
-      let textChar = str.charCodeAt(i) - 65; // Convert character to 0-25 range
+    for (let i = 0; i < text.length; i++) {
+      let textChar = text.charCodeAt(i) - 65; // Convert character to 0-25 range
       let keyChar = key.charCodeAt(keyIndex % keyLength) - 65; // Get key character (cycling through)
 
       let newChar;
@@ -34,7 +26,6 @@ export default function Vigenere({ mode, text, key }) {
       result += String.fromCharCode(newChar + 65); // Convert back to letter
       keyIndex++;
     }
-
     return result;
   };
 
@@ -47,5 +38,5 @@ export default function Vigenere({ mode, text, key }) {
     result = "Invalid mode! Use '-e' for encryption or '-d' for decryption.";
   }
 
-  return <div>Result : {result}</div>;
+  return <div>Result: {result}</div>;
 }

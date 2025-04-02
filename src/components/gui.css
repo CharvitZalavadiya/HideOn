@@ -1,5 +1,5 @@
 .gui-textarea {
     resize: none;
     top: 0px;
-    display: inline-block;
+    display: block;
 }
