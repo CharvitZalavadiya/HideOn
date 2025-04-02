@@ -80,9 +80,9 @@ export default function Console() {
     {
       name: "hill",
       examples: [
-        "[[17, 17, 5], [21, 18, 21], [2, 2, 19]]  \t // 3x3 matrix key", // 3x3 matrix
-        "[[6, 24], [1, 13]] \t // 2x2 matrix key", // 2x2 matrix key
-        "[[5, 8], [17, 3]]\n\n", // Another 2x2 example
+        "[[1, 0, 0], [0, 1, 0], [0, 0, 1]]  \t // 3x3 matrix key", // 3x3 matrix
+        "[[1, 2], [3, 4]] \t // 2x2 matrix key", // 2x2 matrix key
+        "[[2, 3], [1, 2]]\n\n", // Another 2x2 example
       ],
     },
     {
