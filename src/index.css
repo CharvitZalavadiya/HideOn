@@ -1,5 +1,5 @@
 :root {
-  font-family:monospace;
+  font-family: monospace;
   font-weight: 400;
 
   /* font size */
@@ -8,12 +8,12 @@
   --lssmFontSize: 14px;
 
   /* background colors */
-  --primaryBg: rgb(30, 30, 30);
+  --primaryBg: rgb(21, 21, 21);
   --secondaryBg: rgb(10, 10, 10);
   --tertiaryBg: rgb(67, 255, 67);
   
   /* font colors */
-  --primaryFont: rgb(117, 204, 29);
+  --primaryFont: rgba(116, 204, 29, 0.957);
   --secondaryFont: rgb(210, 210, 210);
   --tertiaryFont: rgb(159, 159, 159);
   

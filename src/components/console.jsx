@@ -1,11 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./console.css";
+import consoleImg from "../assets/console.png";
+import guiImg from "../assets/gui.png";
 
-export default function Console() {
+export default function Console({ setActiveTab }) {
   const PROMPT = "user@hideon:~# ";
+  const [maximize, setMaximize] = useState(false);
   const [lines, setLines] = useState([
     "Welcome to HideOn console!",
-    "Use command `man ciphers` to see all commands.\n\n",
+    "Use command `man ciphers` to see all commands",
+    "How to use cipher :-> `<ciphername> --help`\n\n",
   ]);
   const [inputValue, setInputValue] = useState(PROMPT);
   const inputRef = useRef(null);
@@ -317,28 +321,80 @@ export default function Console() {
   }, [lines]);
 
   return (
-    <div className="console-container" onClick={handleClick}>
-      {lines.map((line, index) => (
-        <div key={index} className="console-line">
-          {line}
+    <div>
+      {/* <Background /> */}
+      <section className="console">
+        <div className="console-mainSection" style={{ maxHeight: !maximize ? "90dvh" : "", padding: maximize ? "10px" : "" }}>
+          <div className="console-titleBar">
+            <div className="titleBar-actionButtons">
+              <span
+                className="closeButton"
+                style={{ backgroundColor: "#e01834" }}
+                onClick={() => setActiveTab("none")}
+              ></span>
+              <span
+                className="minimizeButton"
+                style={{ backgroundColor: "#e0e113" }}
+                onClick={() => setActiveTab("none")}
+              ></span>
+              <span
+                className="maximizeButton"
+                style={{ backgroundColor: "#00f025" }}
+                onClick={() => setMaximize(!maximize)}
+              ></span>
+            </div>
+            <p>Console</p>
+          </div>
+          <div className="console-container" onClick={handleClick}>
+            {lines.map((line, index) => (
+              <div key={index} className="console-line">
+                {line}
+              </div>
+            ))}
+
+            <div className="console-input-container">
+              <textarea
+                ref={inputRef}
+                value={inputValue}
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
+                spellCheck="false"
+                autoCorrect="off"
+                autoCapitalize="off"
+                className="console-input"
+                rows={1}
+              />
+            </div>
+
+            <div ref={consoleEndRef} />
+          </div>
         </div>
-      ))}
-
-      <div className="console-input-container">
-        <textarea
-          ref={inputRef}
-          value={inputValue}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-          spellCheck="false"
-          autoCorrect="off"
-          autoCapitalize="off"
-          className="console-input"
-          rows={1}
-        />
-      </div>
-
-      <div ref={consoleEndRef} />
+        {!maximize && (
+          <div className="button-container">
+            <button
+              className="btn gui-btn"
+              style={{ backgroundColor: "#2d2d2d" }}
+              onClick={() => setActiveTab("none")}
+            >
+              <img src={consoleImg} alt="console-logo" />
+              <span
+                style={{
+                  width: "20px",
+                  height: "3px",
+                  backgroundColor: "white",
+                  position: "absolute",
+                  top: "53px",
+                  left: "25px",
+                  borderRadius: "2px",
+                }}
+              ></span>
+            </button>
+            <button className="btn gui-btn" onClick={() => setActiveTab("gui")}>
+              <img src={guiImg} alt="gui-logo" />
+            </button>
+          </div>
+        )}
+      </section>
     </div>
   );
 }

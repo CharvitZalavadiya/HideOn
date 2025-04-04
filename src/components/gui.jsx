@@ -3,14 +3,14 @@ import "./gui.css"
 
 export default function Gui() {
   return (
-    <div className='gui'>
+    <div className='gui' style={{zIndex: 1000}}>
       <form >
       <div className="mode">
       Mode:
         <input type="radio" name="Mode" value="Encryption" />
-       <label for="Encryption">Encryption</label>
+       <label htmlFor="Encryption">Encryption</label>
         <input type="radio" name="Mode"  value="Decryption"/>
-        <label for="Decryption">Decryption</label><br />
+        <label htmlFor="Decryption">Decryption</label><br />
       </div>
       cipher:
         <select name="Cipher" >
