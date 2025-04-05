@@ -1,6 +1,7 @@
 import React from "react";
 
 export default function Monoalphabetic({ mode, text, key }) {
+  key = key.trim()
   // Ensure key is valid (26 unique letters)
   if (!key || key.length !== 26 || new Set(key).size !== 26) {
     return (

@@ -4,76 +4,80 @@ export default function Columnar({ mode, text, key }) {
   let result = "";
 
   try {
-    // Convert key into an array of numbers
+    // Trim and validate key
+    key = key.trim();
+    if (!/^\d+$/.test(key)) throw new Error("Key must contain only numbers.");
+
     const keyArr = key.split("").map(Number);
     const keyLength = keyArr.length;
 
-    if (keyArr.some(isNaN)) {
-      throw new Error("Invalid key! Only numeric keys are allowed.");
-    }
+    // Check if key contains all digits from 1 to keyLength exactly once
+    const isValidKey =
+      new Set(keyArr).size === keyLength &&
+      keyArr.every((val) => val >= 1 && val <= keyLength);
+    if (!isValidKey) throw new Error(`Invalid key! It must be a permutation of digits from 1 to ${keyLength}`);
 
-    // Assign column indices based on key's numerical order
-    const sortedKey = [...keyArr].sort((a, b) => a - b);
-    const columnOrder = keyArr.map((num) => sortedKey.indexOf(num));
+    // Map key digits to column indices
+    const sortedKey = [...keyArr].slice().sort((a, b) => a - b);
+    const columnOrder = keyArr.map((k) => sortedKey.indexOf(k));
 
-    const columnarCipher = (str, keyArr, encrypt = true) => {
-      str = str.replace(/\s+/g, ""); // Remove spaces
-      let textArr = str.split("");
-
-      if (encrypt) {
-        // Create grid with key length columns (no extra padding)
-        let numRows = Math.ceil(textArr.length / keyLength);
-        let grid = Array.from({ length: numRows }, () => new Array(keyLength).fill(""));
-
-        // Fill the grid row-wise
-        let index = 0;
-        for (let row = 0; row < numRows; row++) {
-          for (let col = 0; col < keyLength; col++) {
-            if (index < textArr.length) {
-              grid[row][col] = textArr[index++];
-            }
-          }
+    const buildMatrix = (input, cols) => {
+      const chars = input.split("");
+      const rows = Math.ceil(chars.length / cols);
+      const matrix = Array.from({ length: rows }, () => new Array(cols).fill(" "));
+      let idx = 0;
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          if (idx < chars.length) matrix[r][c] = chars[idx++];
         }
-
-        // Read columns in key's ascending order
-        return columnOrder.map((col) => grid.map((row) => row[col]).join("")).join("");
-      } else {
-        // Decrypting: Calculate number of full columns
-        let numRows = Math.ceil(textArr.length / keyLength);
-        let numCols = keyLength;
-        let fullCols = textArr.length % keyLength;
-        let columnHeights = new Array(numCols).fill(Math.floor(textArr.length / keyLength));
-
-        // Adjust heights for shorter columns
-        for (let i = 0; i < fullCols; i++) {
-          columnHeights[sortedKey.indexOf(keyArr[i])] += 1;
-        }
-
-        // Fill columns based on encryption order
-        let grid = Array.from({ length: numRows }, () => new Array(numCols).fill(""));
-        let index = 0;
-        for (let sortedCol = 0; sortedCol < numCols; sortedCol++) {
-          let actualCol = columnOrder.indexOf(sortedCol);
-          for (let row = 0; row < columnHeights[sortedCol]; row++) {
-            grid[row][actualCol] = textArr[index++];
-          }
-        }
-
-        // Read row-wise to reconstruct original text
-        return grid.flat().join("");
       }
+      return matrix;
     };
 
-    if (mode === "encrypt") {
-      result = columnarCipher(text, keyArr, true);
-    } else if (mode === "decrypt") {
-      result = columnarCipher(text, keyArr, false);
-    } else {
-      result = "Invalid mode! Use '-e' for encryption or '-d' for decryption.";
-    }
+    const encrypt = (plaintext) => {
+      const matrix = buildMatrix(plaintext, keyLength);
+      let encrypted = "";
+      for (let c = 0; c < keyLength; c++) {
+        const actualCol = columnOrder.indexOf(c);
+        for (let r = 0; r < matrix.length; r++) {
+          encrypted += matrix[r][actualCol];
+        }
+      }
+      return encrypted;
+    };
+
+    const decrypt = (cipherText) => {
+      const totalChars = cipherText.length;
+      const rows = Math.ceil(totalChars / keyLength);
+      const matrix = Array.from({ length: rows }, () => new Array(keyLength).fill(""));
+
+      const colHeights = Array(keyLength).fill(Math.floor(totalChars / keyLength));
+      const extra = totalChars % keyLength;
+
+      for (let i = 0; i < extra; i++) {
+        const idx = columnOrder.indexOf(i);
+        colHeights[idx]++;
+      }
+
+      let idx = 0;
+      for (let c = 0; c < keyLength; c++) {
+        const actualCol = columnOrder.indexOf(c);
+        for (let r = 0; r < colHeights[c]; r++) {
+          matrix[r][actualCol] = cipherText[idx++];
+        }
+      }
+
+      return matrix.flat().join("");
+    };
+
+    result = mode === "encrypt" ? encrypt(text) : decrypt(text);
   } catch (error) {
-    result = `Error executing columnar cipher: ${error.message}`;
+    result = `${error.message}`;
   }
 
-  return <div>Result : {result}</div>;
+  return (
+    <div style={{ whiteSpace: "pre-wrap", fontFamily: "monospace" }}>
+      Result: {result}
+    </div>
+  );
 }

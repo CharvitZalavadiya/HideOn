@@ -1,11 +1,11 @@
 import React from "react";
 
 export default function Vigenere({ mode, text, key }) {
-  // Function to process Vigenère Cipher
-  const vigenereCipher = (text, key, encrypt = true) => {
-    text = text.replace(/[^A-Za-z]/g, "").toUpperCase(); // Convert text to uppercase and remove non-alphabetic characters
-    key = key.replace(/[^A-Za-z]/g, "").toUpperCase(); // Convert key to uppercase and remove non-alphabetic characters
+  key = key.trim();
 
+  const vigenereCipher = (text, key, encrypt = true) => {
+    // Prepare cleaned uppercase key
+    key = key.replace(/[^A-Za-z]/g, "").toUpperCase();
     if (key.length === 0) return "Invalid key! Key cannot be empty.";
 
     let result = "";
@@ -13,18 +13,25 @@ export default function Vigenere({ mode, text, key }) {
     let keyLength = key.length;
 
     for (let i = 0; i < text.length; i++) {
-      let textChar = text.charCodeAt(i) - 65; // Convert character to 0-25 range
-      let keyChar = key.charCodeAt(keyIndex % keyLength) - 65; // Get key character (cycling through)
+      const char = text[i];
+      if (/[A-Za-z]/.test(char)) {
+        const isUpper = char === char.toUpperCase();
+        const textCharCode = char.toUpperCase().charCodeAt(0) - 65;
+        const keyCharCode = key.charCodeAt(keyIndex % keyLength) - 65;
 
-      let newChar;
-      if (encrypt) {
-        newChar = (textChar + keyChar) % 26; // Encrypt character
+        let newCharCode;
+        if (encrypt) {
+          newCharCode = (textCharCode + keyCharCode) % 26;
+        } else {
+          newCharCode = (textCharCode - keyCharCode + 26) % 26;
+        }
+
+        const base = isUpper ? 65 : 97;
+        result += String.fromCharCode(newCharCode + base);
+        keyIndex++;
       } else {
-        newChar = (textChar - keyChar + 26) % 26; // Decrypt character
+        result += char; // Preserve non-alphabetic characters as-is
       }
-
-      result += String.fromCharCode(newChar + 65); // Convert back to letter
-      keyIndex++;
     }
     return result;
   };

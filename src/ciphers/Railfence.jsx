@@ -1,6 +1,7 @@
 import React from "react";
 
 export default function Railfence({ mode, text, key }) {
+  key = key.trim()
   const rails = parseInt(key, 10);
   if (isNaN(rails) || rails < 2)
     return (

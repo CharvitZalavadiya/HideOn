@@ -1,6 +1,7 @@
 import React from "react";
 
 export default function Caeser({ mode, text, key }) {
+  key  = key.trim()
   const shift = parseInt(key, 10);
   if (isNaN(shift))
     return (

@@ -1,52 +1,42 @@
 import React from "react";
 
 export default function Vernam({ mode, text, key }) {
-  // Verify the key is valid (same length as text and contains only alphabetic characters)
+  key = key.trim();
+
+  // Validate key
   if (!/^[a-zA-Z]+$/.test(key)) {
-    return (
-      <div>
-        Invalid key! Must contain only alphabetic characters.
-      </div>
-    );
+    return <div>Invalid key! Must contain only alphabetic characters.</div>;
   }
 
-  if (key.length < text.length) {
-    return (
-      <div>
-        Invalid key! Key must be at least as long as the plaintext.
-      </div>
-    );
+  if (key.length < text.replace(/[^a-zA-Z]/g, "").length) {
+    return <div>Invalid key! Key must be at least as long as the alphabetic characters in the plaintext.</div>;
   }
 
   const vernamCipher = (str, key, encrypt = true) => {
-    // Convert to uppercase for consistency
-    str = str.toUpperCase();
-    key = key.toUpperCase();
-
     let result = "";
+    let keyIndex = 0;
 
     for (let i = 0; i < str.length; i++) {
       const char = str[i];
-      
-      // Skip non-alphabetic characters
-      if (!/[A-Z]/.test(char)) {
-        result += char;
-        continue;
-      }
 
-      const charCode = char.charCodeAt(0) - 65; // A=0, B=1, etc.
-      const keyCode = key[i].charCodeAt(0) - 65;
+      if (/[a-zA-Z]/.test(char)) {
+        const isUpper = char === char.toUpperCase();
+        const textCode = char.toUpperCase().charCodeAt(0) - 65;
+        const keyCode = key[keyIndex].toUpperCase().charCodeAt(0) - 65;
 
-      let newCharCode;
-      if (encrypt) {
-        // Encryption: (plaintext + key) mod 26
-        newCharCode = (charCode + keyCode) % 26;
+        let newCode;
+        if (encrypt) {
+          newCode = (textCode + keyCode) % 26;
+        } else {
+          newCode = (textCode - keyCode + 26) % 26;
+        }
+
+        const base = isUpper ? 65 : 97;
+        result += String.fromCharCode(newCode + base);
+        keyIndex++;
       } else {
-        // Decryption: (ciphertext - key + 26) mod 26
-        newCharCode = (charCode - keyCode + 26) % 26;
+        result += char; // Keep spaces, punctuation etc.
       }
-
-      result += String.fromCharCode(newCharCode + 65);
     }
 
     return result;
@@ -61,5 +51,5 @@ export default function Vernam({ mode, text, key }) {
     result = "Invalid mode! Use '-e' for encryption or '-d' for decryption.";
   }
 
-  return <div>Result : {result}</div>;
+  return <div>Result: {result}</div>;
 }
