@@ -28,7 +28,7 @@
 }
 
 .console-titleBar p {
-  margin-left: 50%;
+  margin-left: calc(50% - 70px);
 }
 
 .console-titleBar .titleBar-actionButtons {

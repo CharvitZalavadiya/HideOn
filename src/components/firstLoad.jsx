@@ -125,8 +125,8 @@ export default function FirstLoad() {
 
       {activeTab === "gui" && (
         <div className="full-screen">
-          <Gui />
-          <button className="back-btn" onClick={() => setActiveTab("none")}>Back</button>
+          <Gui setActiveTab={setActiveTab} />
+          {/* <button className="back-btn" onClick={() => setActiveTab("none")}>Back</button> */}
         </div>
       )}
     </div>

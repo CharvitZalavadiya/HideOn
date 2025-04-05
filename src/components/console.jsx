@@ -311,10 +311,6 @@ export default function Console({ setActiveTab }) {
     }
   };
 
-  const handleClick = () => {
-    inputRef.current.focus();
-  };
-
   // Auto-scroll to bottom
   useEffect(() => {
     consoleEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -335,7 +331,7 @@ export default function Console({ setActiveTab }) {
               <span
                 className="minimizeButton"
                 style={{ backgroundColor: "#e0e113" }}
-                onClick={() => setActiveTab("none")}
+                onClick={() => setActiveTab("gui")}
               ></span>
               <span
                 className="maximizeButton"
@@ -345,7 +341,7 @@ export default function Console({ setActiveTab }) {
             </div>
             <p>Console</p>
           </div>
-          <div className="console-container" onClick={handleClick}>
+          <div className="console-container">
             {lines.map((line, index) => (
               <div key={index} className="console-line">
                 {line}

@@ -1,5 +1,90 @@
+.gui {
+  width: 100dvw;
+  height: 100dvh;
+  background: var(--primaryBg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+.gui-mainSection {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+}
+
+.gui-titleBar {
+  display: flex;
+  align-items: center;
+  background: rgb(40, 40, 40);
+  padding: 10px;
+  height: 40px;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.gui-titleBar p {
+  margin-left: calc(50% - 50px);
+}
+
+.gui-titleBar .titleBar-actionButtons {
+  display: flex;
+  gap: 10px;
+}
+
+.gui-titleBar .titleBar-actionButtons span {
+  width: 15px;
+  height: 15px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.gui-container {
+  background: var(--secondaryBg);
+  color: var(--primaryFont);
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  padding: 10px;
+  height: calc(100% - 50px);
+  overflow: scroll;
+  border-radius: 0px 0px 12px 12px;
+}
+
+form {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.gui-inputs {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.gui-textarea, .gui-key {
+  font-family: monospace;
+  padding: 10px;
+  resize: none;
+  outline: none;
+  font-size: 14px;
+  border-radius: 8px;
+  background-color: #3b713d17;
+  border: 2px solid #26802970;
+  color: var(--primaryFont);
+  width: 100%;
+  margin-bottom: 12px;
+}
+
 .gui-textarea {
-    resize: none;
-    top: 0px;
-    display: block;
+  flex-grow: 1;
+}
+
+.gui-key {
+  width: 80%;
 }
