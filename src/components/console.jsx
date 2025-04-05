@@ -8,8 +8,8 @@ export default function Console({ setActiveTab }) {
   const [maximize, setMaximize] = useState(false);
   const [lines, setLines] = useState([
     "Welcome to HideOn console!",
-    "Use command `man ciphers` to see all commands",
-    "How to use cipher :-> `<ciphername> --help`\n\n",
+    "To see all commands : man ciphers",
+    "How to use cipher : <ciphername> --help\n\n",
   ]);
   const [inputValue, setInputValue] = useState(PROMPT);
   const inputRef = useRef(null);
@@ -48,7 +48,7 @@ export default function Console({ setActiveTab }) {
     "11. feistel",
     "12. aes (Advanced Encryption Standard)",
     "13. des (Data Encryption Standard)\n\n",
-    "To use any cipher, type :\t<ciphername> --help\n\n",
+    "To use any cipher, type :\t<ciphername> --help\n",
     "To clear console, type :\tcls / clear\n\n",
   ];
 
@@ -72,14 +72,14 @@ export default function Console({ setActiveTab }) {
     {
       name: "columnar",
       examples: [
-        "keyword \t // Keyword based key",
-        "4312567 \t // Numeric based key",
-        "31452 \t // Numeric based key\n\n",
-      ], // Numeric & keyword-based keys
+        "4526",
+        "4312567",
+        "31452\n\n",
+      ],
     },
     {
       name: "doublecolumnar",
-      examples: ["secret", "3142", "password\n\n"], // Two-layer columnar keys
+      examples: ["1234 4321", "3142 2143", "1423 4123\n\n"], // Two-layer columnar keys
     },
     {
       name: "hill",

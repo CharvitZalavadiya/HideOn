@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Button from "@mui/material/Button";
 import "./gui.css";
 import consoleImg from "../assets/console.png";
 import guiImg from "../assets/gui.png";
@@ -8,7 +9,8 @@ import CipherSelect from "./ui/CipherSelect";
 export default function Gui({ setActiveTab }) {
   const [maximize, setMaximize] = useState(false);
   const [selectedCipher, setSelectedCipher] = useState("caeser");
-  const [mode, setMode] = useState('encrypt');
+  const [selectedMode, setSelectedMode] = useState("encrypt");
+  const [result, setResult] = useState("Result : NA");
 
   const CIPHER_KEYS = [
     {
@@ -29,15 +31,11 @@ export default function Gui({ setActiveTab }) {
     },
     {
       name: "columnar",
-      examples: [
-        "keyword \t // Keyword based key",
-        "4312567 \t // Numeric based key",
-        "31452 \t // Numeric based key\n\n",
-      ], // Numeric & keyword-based keys
+      examples: ["4526", "4312567", "31452\n\n"],
     },
     {
       name: "doublecolumnar",
-      examples: ["secret", "3142", "password\n\n"], // Two-layer columnar keys
+      examples: ["1234 4321", "3142 2143", "1423 4123\n\n"], // Two-layer columnar keys
     },
     {
       name: "hill",
@@ -94,21 +92,55 @@ export default function Gui({ setActiveTab }) {
   };
 
   const handleModeChange = (mode) => {
-    setMode(mode);
+    setSelectedMode(mode);
   };
+  
+  const capitalize = (str) =>
+    str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
-  const handleSubmit = (event) => {
-    event.preventDefault(); // Prevents page reload
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const formData = new FormData(event.target);
-    const data = {
-      text: formData.get("textbox"),
-      key: formData.get("key"),
-      cipher: selectedCipher,
-      mode: mode,
-    };
+    const formData = new FormData(e.target);
+    const text = formData.get("textbox");
+    const key = formData.get("key");
 
-    console.log("Form Data:", data);
+    const cipher = selectedCipher; // from CipherSelect
+    const mode = selectedMode; // from ColorToggleButton
+
+
+    try {
+      const formattedCipherName = capitalize(cipher); // "caeser" → "Caeser"
+
+      const CipherModule = await import(
+        `../ciphers/${formattedCipherName}.jsx`
+      );
+
+      if (CipherModule && CipherModule.default) {
+        const cipherOptions = {
+          mode,
+          text,
+          key,
+        };
+
+        const result = await CipherModule.default(cipherOptions);
+
+        if (result) {
+          setResult(result);
+        } else {
+          setResult("Operation completed but returned no result.");
+        }
+      } else {
+        setResult(
+          `❌ ${formattedCipherName}.jsx does not export default correctly.`
+        );
+      }
+    } catch (error) {
+      setResult(
+        `❌ Error executing ${cipher} cipher:`,
+        error.message || error
+      );
+    }
   };
 
   return (
@@ -157,7 +189,7 @@ export default function Gui({ setActiveTab }) {
                   )) || <li>No examples available.</li>}
                 </ul>
               </span>
-              <ModeSelect mode={mode} onModeChange={handleModeChange} />
+              <ModeSelect mode={selectedMode} onModeChange={handleModeChange} />
             </div>
             <div className="gui-inputs">
               <textarea
@@ -166,7 +198,7 @@ export default function Gui({ setActiveTab }) {
                 placeholder="Enter text here..."
                 required
               />
-              <span className="keySubmit">
+              <span className="gui-keySubmit">
                 <input
                   type="text"
                   name="key"
@@ -174,9 +206,25 @@ export default function Gui({ setActiveTab }) {
                   placeholder="Enter key here..."
                   required
                 />
-                <button type="submit">Submit</button>
+                <Button
+                  type="submit"
+                  className="gui-submitButton"
+                  sx={{
+                    fontSize: "14px",
+                    borderRadius: "8px",
+                    backgroundColor: "#27c127a8", // Custom background color
+                    color: "#fff", // Text color (optional)
+                    "&:hover": {
+                      backgroundColor: "#34a93466", // Custom hover color
+                    },
+                  }}
+                  variant="contained"
+                >
+                  {selectedMode === "encrypt" ? "Encrypt" : "Decrypt"}
+                </Button>
               </span>
             </div>
+            <div className="gui-result">{result}</div>
           </form>
         </div>
       </div>

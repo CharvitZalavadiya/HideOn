@@ -3,9 +3,6 @@ import React from "react";
 export default function Hill({ mode, text, key }) {
   let result = "";
 
-  console.log(mode)
-  console.log(key)
-  console.log(text)
   try {
     // Convert key from string to a 2D array (matrix)
     const keyMatrix = JSON.parse(key);

@@ -6,9 +6,6 @@ export default function Monoalphabetic({ mode, text, key }) {
     return (
       <div>
         Invalid key! The key must be exactly 26 unique letters.
-        <br />
-        <br />
-        Type `monoalphabetic --help` to get examples of key
       </div>
     );
   }

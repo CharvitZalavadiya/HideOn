@@ -6,9 +6,6 @@ export default function Vernam({ mode, text, key }) {
     return (
       <div>
         Invalid key! Must contain only alphabetic characters.
-        <br />
-        <br />
-        Type `vernam --help` to get examples of key
       </div>
     );
   }
@@ -17,9 +14,6 @@ export default function Vernam({ mode, text, key }) {
     return (
       <div>
         Invalid key! Key must be at least as long as the plaintext.
-        <br />
-        <br />
-        Type `vernam --help` to get examples of key
       </div>
     );
   }

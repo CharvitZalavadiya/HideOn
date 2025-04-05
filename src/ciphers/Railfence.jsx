@@ -6,9 +6,6 @@ export default function Railfence({ mode, text, key }) {
     return (
       <div>
         Invalid key! Must be a number greater than or equal to 2.
-        <br />
-        <br />
-        Type `railfence --help` to get examples of key
       </div>
     );
 

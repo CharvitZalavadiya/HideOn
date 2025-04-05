@@ -69,22 +69,32 @@ form {
 
 .gui-textarea, .gui-key {
   font-family: monospace;
+  font-size: 16px;
   padding: 10px;
   resize: none;
   outline: none;
-  font-size: 14px;
   border-radius: 8px;
   background-color: #3b713d17;
   border: 2px solid #26802970;
   color: var(--primaryFont);
   width: 100%;
-  margin-bottom: 12px;
 }
 
 .gui-textarea {
   flex-grow: 1;
+  margin-bottom: 12px;
 }
 
-.gui-key {
-  width: 80%;
+.gui-keySubmit {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.gui-result {
+  margin-top: 12px;
+  background-color: #00ff0917;
+  border: 2px solid #26802970;
+  border-radius: 8px;
+  padding: 10px;
 }

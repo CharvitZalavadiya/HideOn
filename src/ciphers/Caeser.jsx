@@ -6,9 +6,6 @@ export default function Caeser({ mode, text, key }) {
     return (
       <div>
         Invalid key! Must be a number.
-        <br />
-        <br />
-        Type `caeser --help` to get examples of key
       </div>
     );
 
