@@ -15,70 +15,97 @@ export default function Gui({ setActiveTab }) {
   const CIPHER_KEYS = [
     {
       name: "caeser",
-      examples: ["3", "7", "15\n\n"], // Shift values for the Caesar cipher
+      examples: ["<1> : 3", "<2> : 7", "<3> : 15\n\n"],
     },
     {
       name: "monoalphabetic",
       examples: [
-        "phqgiumeaylnofdxjkrcvstzwb \t// Mixed random key", // Random substitution
-        "zyxwvutsrqponmlkjihgfedcba", // Reverse alphabet
-        "qazwsxedcrfvtgbyhnujmikolp\n\n", // Mixed random key
+        "// Key must contain a to z letters",
+        "// Letters can be reversed or in random manner\n",
+        "<1> : phqgiumeaylnofdxjkrcvstzwb",
+        "<2> : zyxwvutsrqponmlkjihgfedcba",
+        "<3> : qazwsxedcrfvtgbyhnujmikolp\n\n",
       ],
     },
     {
       name: "railfence",
-      examples: ["2", "3", "5\n\n"], // Number of rails
+      examples: ["<1> : 2", "<2> : 3", "<3> : 5\n\n"],
     },
     {
       name: "columnar",
-      examples: ["4526", "4312567", "31452\n\n"],
+      examples: ["<1> : 4526", "<2> : 4312567", "<3> : 31452\n\n"],
     },
     {
       name: "doublecolumnar",
-      examples: ["1234 4321", "3142 2143", "1423 4123\n\n"], // Two-layer columnar keys
+      examples: [
+        "// You must need to provide 2 keys sepated by space",
+        "<1> : 1234 4321",
+        "<2> : 3142 2143",
+        "<3> : 1423 4123\n\n",
+      ],
     },
     {
       name: "hill",
       examples: [
-        "[[1, 0, 0], [0, 1, 0], [0, 0, 1]]  \t // 3x3 matrix key", // 3x3 matrix
-        "[[1, 2], [3, 4]] \t // 2x2 matrix key", // 2x2 matrix key
-        "[[2, 3], [1, 2]]\n\n", // Another 2x2 example
+        "// Key must be a squared matrix whose inverse matrix is possible",
+        "// Identity matrix as a key will not encryt the text\n",
+        "<1> : [[1, 0, 0], [0, 1, 0], [0, 0, 1]]",
+        "<2> : [[1, 2], [3, 4]]",
+        "<3> : [[2, 3], [1, 2]]\n\n",
       ],
     },
     {
       name: "vigenere",
-      examples: ["LEMON", "HIDE", "CIPHER\n\n"], // Keyword-based
+      examples: ["<1> : LEMON", "<2> : HIDE", "<3> : CIPHER\n\n"], // Keyword-based
     },
     {
       name: "vernam",
-      examples: ["XMCKL", "HELLO", "SECRET\n\n"], // One-time pad examples
+      examples: [
+        "// Key must be as long as plainText\n",
+        "<1> : XMCKL",
+        "<2> : HELLO",
+        "<3> : SECRET\n\n",
+      ],
     },
     {
       name: "autokey",
-      examples: ["KING", "QUEEN", "CIPHER\n\n"], // Initial key examples
+      examples: ["<1> : KING", "<2> : QUEEN", "<3> : CIPHER\n\n"],
     },
     {
       name: "playfair",
-      examples: ["MONARCHY", "KEYWORD", "SECRET\n\n"], // Playfair key squares
+      examples: ["<1> : MONARCHY", "<2> : KEYWORD", "<3> : SECRET\n\n"],
     },
     {
       name: "feistel",
-      examples: ["11001100", "10101010", "00110011\n\n"], // Example binary keys
+      examples: ["<1> : 11001100", "<2> : 10101010", "<3> : 00110011\n\n"],
     },
     {
       name: "aes",
       examples: [
-        "2b7e151628aed2a6abf7158809cf4f3c \t // 128-bit hex key", // 128-bit hex key
-        "603deb1015ca71be2b73aef0857d7781 \t // 192-bit hex key", // 192-bit hex key
-        "000102030405060708090a0b0c0d0e0f \t // 256-bit hex key\n\n", // 256-bit hex key
+        "// Key must be between 128, 192, 256-bit hex key",
+        "// Text-Only key must be exactly 16, 24, 32 characters long",
+        "// Hexadecimal key must be exactly 32, 48, 64 characters long\n",
+        "<1> : 2b7e151628aed2a6abf7158809cf4f3c",
+        "<2> : 603deb1015ca71be2b73aef0857d7781",
+        "<3> : 000102030405060708090a0b0c0d0e0f\n\n",
       ],
     },
     {
       name: "des",
       examples: [
-        "133457799BBCDFF1 \t // Standard", // Standard DES key
-        "A1B2C3D4E5F60708", // Another valid DES key
-        "0123456789ABCDEF \t // 64-bit key\n\n", // 64-bit key
+        "<1> : qwertyui",
+        "<2> : A1B2C3D4E5F60708",
+        "<3> : 0123456789ABCDEF\n\n",
+      ],
+    },
+    {
+      name: "3des",
+      examples: [
+        "// Text-Only key must have length between 16 and 24 characters",
+        "// Hexadecimal key must have length between 32 and 48 characters\n",
+        "<1> : mysecurekey12345",
+        "<2> : 0123456789abcdef0123456789abcdef",
+        "<3> : 0123456789abcdef0123456789abcdefabcdef1234567890\n\n",
       ],
     },
   ];
