@@ -146,7 +146,9 @@ export default function Console({ setActiveTab }) {
     if (event.key === "Enter") {
       event.preventDefault();
 
-      const trimmedInput = inputValue.slice(PROMPT.length).trim().toLowerCase();
+      const trimmedInputRaw = inputValue.slice(PROMPT.length); // Preserves original casing and punctuation
+      const trimmedInput = trimmedInputRaw.trim().toLowerCase(); // For command parsing only
+
       let response = [];
 
       if (!trimmedInput) {
@@ -233,16 +235,22 @@ export default function Console({ setActiveTab }) {
             } else {
               // Extract text and key
               let text = "";
+              const textStart = trimmedInputRaw.indexOf(mode) + mode.length + 1;
+const textEnd = trimmedInputRaw.indexOf("-k");
               let key = "";
 
               // Get the text (everything between mode and -k)
               if (keyIndex > modeIndex + 1) {
-                text = parts.slice(modeIndex + 1, keyIndex).join(" ");
+                // text = parts.slice(modeIndex + 1, keyIndex).join(" ");
+                text = trimmedInputRaw.substring(textStart, textEnd).trim();
               }
 
               // Get the key (everything after -k)
-              if (keyIndex + 1 < parts.length) {
-                key = parts.slice(keyIndex + 1).join(" ");
+              // if (keyIndex + 1 < parts.length) {
+              //   key = parts.slice(keyIndex + 1).join(" ");
+              // }
+              if (textEnd !== -1) {
+                key = trimmedInputRaw.substring(textEnd + 2).trim(); // everything after -k
               }
 
               if (!text) {
