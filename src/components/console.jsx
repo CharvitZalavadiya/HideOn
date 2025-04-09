@@ -6,6 +6,7 @@ import guiImg from "../assets/gui.png";
 export default function Console({ setActiveTab }) {
   const PROMPT = "user@hideon:~# ";
   const [maximize, setMaximize] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   const [lines, setLines] = useState([
     "Welcome to HideOn console!",
     "To see all commands : man hideon",
@@ -352,9 +353,9 @@ export default function Console({ setActiveTab }) {
       {/* <Background /> */}
       <section className="console">
         <div
-          className="console-mainSection"
+          className={`console-mainSection income ${isAnimating ? "outgoing" : ""}`}
           style={{
-            maxHeight: !maximize ? "90dvh" : "",
+            maxHeight: !maximize ? "90dvh" : "100dvh",
             padding: maximize ? "10px" : "",
           }}
         >
@@ -363,12 +364,26 @@ export default function Console({ setActiveTab }) {
               <span
                 className="closeButton"
                 style={{ backgroundColor: "#e01834" }}
-                onClick={() => setActiveTab("none")}
+                // onClick={() => setActiveTab("none")}
+                onClick={() => {
+                  setIsAnimating(true); // trigger exit animation
+                  setTimeout(() => {
+                    setActiveTab("none");
+                    setIsAnimating(false); // reset
+                  }, 400); // match animation duration in CSS
+                }}
               ></span>
               <span
                 className="minimizeButton"
                 style={{ backgroundColor: "#e0e113" }}
-                onClick={() => setActiveTab("gui")}
+                // onClick={() => setActiveTab("gui")}
+                onClick={() => {
+                  setIsAnimating(true); // trigger exit animation
+                  setTimeout(() => {
+                    setActiveTab("gui");
+                    setIsAnimating(false); // reset
+                  }, 400); // match animation duration in CSS
+                }}
               ></span>
               <span
                 className="maximizeButton"
@@ -402,8 +417,8 @@ export default function Console({ setActiveTab }) {
             <div ref={consoleEndRef} />
           </div>
         </div>
-        {!maximize && (
-          <div className="button-container">
+        {/* {!maximize && ( */}
+          <div className={`button-container ${maximize ? "goDown" : "goUp"}`}>
             <button
               className="btn gui-btn"
               style={{ backgroundColor: "#2d2d2d" }}
@@ -426,7 +441,7 @@ export default function Console({ setActiveTab }) {
               <img src={guiImg} alt="gui-logo" />
             </button>
           </div>
-        )}
+        {/* )} */}
       </section>
     </div>
   );

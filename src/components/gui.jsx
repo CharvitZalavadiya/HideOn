@@ -5,9 +5,11 @@ import consoleImg from "../assets/console.png";
 import guiImg from "../assets/gui.png";
 import ModeSelect from "./ui/ModeSelect";
 import CipherSelect from "./ui/CipherSelect";
+import Console from "./console";
 
 export default function Gui({ setActiveTab }) {
   const [maximize, setMaximize] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   const [selectedCipher, setSelectedCipher] = useState("caeser");
   const [selectedMode, setSelectedMode] = useState("encrypt");
   const [result, setResult] = useState("Result : NA");
@@ -171,11 +173,12 @@ export default function Gui({ setActiveTab }) {
   };
 
   return (
+    <>
     <section className="gui">
       <div
-        className="gui-mainSection"
+        className={`gui-mainSection income ${isAnimating ? "outgoing" : ""}`}
         style={{
-          maxHeight: !maximize ? "90dvh" : "",
+          maxHeight: !maximize ? "90dvh" : "100dvh",
           padding: maximize ? "10px" : "",
         }}
       >
@@ -184,12 +187,26 @@ export default function Gui({ setActiveTab }) {
             <span
               className="closeButton"
               style={{ backgroundColor: "#e01834" }}
-              onClick={() => setActiveTab("none")}
+              // onClick={() => setActiveTab("none")}
+              onClick={() => {
+                setIsAnimating(true); // trigger exit animation
+                setTimeout(() => {
+                  setActiveTab("none");
+                  setIsAnimating(false); // reset
+                }, 400); // match animation duration in CSS
+              }}
             ></span>
             <span
               className="minimizeButton"
               style={{ backgroundColor: "#e0e113" }}
-              onClick={() => setActiveTab("console")}
+              // onClick={() => setActiveTab("console")}
+              onClick={() => {
+                setIsAnimating(true); // trigger exit animation
+                setTimeout(() => {
+                  setActiveTab("console");
+                  setIsAnimating(false); // reset
+                }, 400); // match animation duration in CSS
+              }}
             ></span>
             <span
               className="maximizeButton"
@@ -255,8 +272,8 @@ export default function Gui({ setActiveTab }) {
           </form>
         </div>
       </div>
-      {!maximize && (
-        <div className="button-container">
+      {/* {!maximize && ( */}
+        <div className={`button-container ${maximize ? "goDown" : "goUp"}`}>
           <button
             className="btn gui-btn"
             // style={{ backgroundColor: "#2d2d2d" }}
@@ -283,7 +300,8 @@ export default function Gui({ setActiveTab }) {
             ></span>
           </button>
         </div>
-      )}
+      {/* )} */}
     </section>
+    </>
   );
 }

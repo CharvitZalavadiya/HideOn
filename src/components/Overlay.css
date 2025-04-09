@@ -11,16 +11,38 @@
 }
 
 .button-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
   background: #1c1c1c;
   height: 10dvh;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0px, 1fr));
   gap: 10px;
   width: fit-content;
   padding: 10px;
   border-radius: 18px 18px 0px 0px;
   backdrop-filter: blur(1px);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0px, 1fr));
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  pointer-events: auto;
+  margin: auto; /* optional, to center it horizontally */
 }
+
+.button-container.goDown {
+  transform: translateY(10dvh); /* Push down */
+  opacity: 0;
+  pointer-events: none;
+}
+
+.button-container.goUp {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
 
 .button-container button {
   border: none;
@@ -32,6 +54,10 @@
   place-items: center;
   width: fit-content;
   color: var(--primaryFont);
+}
+
+.goDown {
+  height: -10dvh;
 }
 
 .button-container button:hover {

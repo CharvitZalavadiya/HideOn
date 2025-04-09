@@ -16,6 +16,7 @@
   width: 100%;
   height: 100%;
   padding: 20px;
+  transition: all 0.5s ease-in-out;
 }
 
 .console-titleBar {
@@ -74,4 +75,34 @@
   resize: none;
   font-size: var(--lsmdFontSize);
   text-decoration: none;
+}
+
+.income {
+  animation: popupEnter 0.7s ease-out;
+}
+
+.outgoing {
+  animation: popupExit 0.7s ease-out;
+}
+
+@keyframes popupEnter {
+  0% {
+    transform: scale(0);
+    transform-origin: 50% 100%;
+  }
+  100% {
+    transform: scale(1);
+    transform-origin: 50% 100%;
+  }
+}
+
+@keyframes popupExit {
+  0% {
+    transform: scale(1);
+    transform-origin: 50% 100%;
+  }
+  100% {
+    transform: scale(0);
+    transform-origin: 50% 100%;
+  }
 }
