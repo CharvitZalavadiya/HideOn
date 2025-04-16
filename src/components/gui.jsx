@@ -51,7 +51,7 @@ export default function Gui({ setActiveTab }) {
       examples: [
         "// Key must be a squared matrix whose inverse matrix is possible",
         "// Identity matrix as a key will not encryt the text\n",
-        "<1> : [[1, 0, 0], [0, 1, 0], [0, 0, 1]]",
+        "<1> : [[1, 2, 3], [0, 1, 4], [5, 6, 0]]",
         "<2> : [[1, 2], [3, 4]]",
         "<3> : [[2, 3], [1, 2]]\n\n",
       ],
